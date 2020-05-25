@@ -15,6 +15,7 @@ Model::Model(int x, int y, QString path)
     convertPNG(this->path);
     this->destroyed = false;
     this->setImage();
+    this->setModel();
     this->rect = this->getImage().rect();
     this->rect.translate(x, y);
 }
@@ -82,6 +83,6 @@ void Model::convertPNG(QString path)
     }
     else
     {
-        image.save(path,"PNG");
+        image.save(path, "PNG");
     }
 }
