@@ -7,7 +7,7 @@
 #include <tuple>
 #include <QTimer>
 #include <QObject>
-#include "Model/ModelList.h"
+#include "Model/modellist.h"
 #include "Model/paint.h"
 
 

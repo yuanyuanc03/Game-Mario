@@ -1,4 +1,4 @@
-#include "ModelList.h"
+#include "modellist.h"
 #include <QFile>
 
 ModelList::ModelList()

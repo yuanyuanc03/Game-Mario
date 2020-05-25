@@ -2,7 +2,7 @@
 #define GAMEBOARD_H
 
 #include <QObject>
-#include "Model/ModelList.h"
+#include "Model/modellist.h"
 #include "View/view.h"
 
 class ModelList;

@@ -1,7 +1,7 @@
 #include "Controller/gamecontroller.h"
 #include <QDesktopWidget>
 #include <QApplication>
-#include "Model/ModelList.h"
+#include "Model/modellist.h"
 #include "View/view.h"
 class View;
 

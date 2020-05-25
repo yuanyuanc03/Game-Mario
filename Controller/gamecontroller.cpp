@@ -1,4 +1,4 @@
-#include "Model/ModelList.h"
+#include "Model/modellist.h"
 #include "Model/model.h"
 #include "View/view.h"
 #include "Model/gold.h"
