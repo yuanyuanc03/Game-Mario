@@ -4,7 +4,7 @@
 
 Time::Time(int x, int y): Model(x, y)
 {
-    this->time = 300;
+    this->time = 10;
     timer = new QTimer();
     QObject::connect(this->timer, SIGNAL(timeout()), this, SLOT(realTime()));
     this->timer->start(1000);

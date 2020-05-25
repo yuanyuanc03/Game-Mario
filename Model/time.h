@@ -12,7 +12,8 @@ public:
     Time(int, int);
 
     //setters and getters
-    int getTime(){ return time; }
+    int getTime() { return time; }
+    void setTime(int i) { this->time = i; }
 
     //public attributes
     QTimer * timer;

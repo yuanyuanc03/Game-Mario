@@ -163,6 +163,13 @@ void View::paintEvent(QPaintEvent *event)
     {
         this->controller->getModelList()->getSplashScreen()->accept(paint);
     }
+
+    if(this->controller->getModelList()->getTime()->getTime() == 0)
+    {
+        this->controller->marioDeath();
+        this->controller->getModelList()->getTime()->setTime(-1);
+        this->controller->getModelList()->getTime()->timer->stop();
+    }
 }
 
 void View::keyPressEvent(QKeyEvent *event)
