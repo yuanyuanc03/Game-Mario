@@ -153,15 +153,23 @@ void View::paintEvent(QPaintEvent *event)
     if(!this->controller->getModelList()->getBlood()->getStopBlood() && this->controller->getModelList()->getMario()->getIsHurted())// Paint Blood when hurted
         this->controller->getModelList()->getBlood()->accept(paint);
 
-    if(this->controller->GameOver())
+    if(this->controller->GameOver()){
         painter.fillRect(QRect(0, 0, ModelList::Width, ModelList::Height), QBrush(QColor(128, 128, 255, 230)));
-
+    }
     else if(this->controller->Completed())
         painter.fillRect(QRect(0, 0, ModelList::Width, ModelList::Height), QBrush(QColor(29, 153, 215, 230)));
 
     if(this->controller->getModelList()->getSplashScreen()->getIsSplashScreen())
     {
         this->controller->getModelList()->getSplashScreen()->accept(paint);
+    }
+
+    if(this->getController()->getModelList()->getMario()->getLife() < 0 ||this->getController()->getModelList()->getTime()->getTime() == 0)
+    {
+        this->getController()->getModelList()->getMario()->setLife(5);
+        this->controller->marioDeath();
+        this->controller->getModelList()->getTime()->setTime(-1);
+        this->controller->getModelList()->getTime()->timer->stop();
     }
 }
 

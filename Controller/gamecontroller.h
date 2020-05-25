@@ -41,6 +41,7 @@ public:
     void Label();
     void splashScreen();
     void stopGame();
+    void marioDeath();
     bool GameOver();
     bool Completed();
     void hurted();

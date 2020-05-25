@@ -60,6 +60,16 @@ void GameController::stopGame()
     this->gameStarted = false;
 }
 
+void GameController::marioDeath()
+{
+    for(int i =0; i < 2; i++)
+    {
+        this->getModelList()->getBackground()->at(i)->getBgMusic()->stop();
+    }
+
+    this->getModelList()->getMario()->getDeathSound()->play();
+}
+
 void GameController::movementMario()
 {
     int y = this->modelList->getMario()->getRect().y();
@@ -803,12 +813,12 @@ bool GameController::GameOver(){
         }
         this->modelList->getSplashScreen()->setIsSplashScreen(true);
 
-        for(int i =0; i < 2; i++)
-        {
-            this->getModelList()->getBackground()->at(i)->getBgMusic()->stop();
-        }
+//        for(int i =0; i < 2; i++)
+//        {
+//            this->getModelList()->getBackground()->at(i)->getBgMusic()->stop();
+//        }
 
-        this->getModelList()->getMario()->getDeathSound()->play();
+//        this->getModelList()->getMario()->getDeathSound()->play();
 
         return true;
     }
