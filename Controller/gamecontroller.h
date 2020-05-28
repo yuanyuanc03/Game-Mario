@@ -41,6 +41,9 @@ public:
     void Label();
     void splashScreen();
     void stopGame();
+    void startBgMusic();
+    void stopBgMusic();
+    void pauseBgMusic();
     void marioDeath();
     bool GameOver();
     bool Completed();

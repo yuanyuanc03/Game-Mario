@@ -9,5 +9,5 @@ DarkEater::DarkEater(int x, int y) : Model(x, y, ":/files/images/dark_eater.png"
 
     //darkeater music
     this->boom = new QMediaPlayer();
-    this->boom->setMedia(QUrl("qrc:/files/sounds/boom.war"));
+    this->boom->setMedia(QUrl("qrc:/files/sounds/boom.wav"));
 }

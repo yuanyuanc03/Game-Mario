@@ -10,5 +10,5 @@ Tree::Tree(int x, int y): Player(x, y)
 
     //tree sound
     treesound = new QMediaPlayer();
-    treesound->setMedia(QUrl(":/files/sounds/boom.war"));
+    treesound->setMedia(QUrl("qrc:/files/sounds/boom.wav"));
 }

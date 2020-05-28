@@ -164,11 +164,12 @@ void View::paintEvent(QPaintEvent *event)
         this->controller->getModelList()->getSplashScreen()->accept(paint);
     }
 
-    if(this->controller->getModelList()->getTime()->getTime() == 0)
+    if(this->controller->getModelList()->getTime()->getTime() == 0 || this->controller->getModelList()->getMario()->getLife() == 0)
     {
         this->controller->marioDeath();
         this->controller->getModelList()->getTime()->setTime(-1);
         this->controller->getModelList()->getTime()->timer->stop();
+        this->controller->getModelList()->getMario()->setLife(-1);
     }
 }
 
@@ -195,8 +196,8 @@ void View::keyPressEvent(QKeyEvent *event)
             event->ignore();
     }
 
-    else if(event->key() == Qt::Key_Enter){
-
+    else if(event->key() == Qt::Key_Enter)
+    {
     }
 
     if (event->key() == Qt::Key_Escape)

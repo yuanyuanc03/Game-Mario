@@ -12,6 +12,8 @@ Mario::Mario(int x, int y): Player(x,y)
 
     this->deathsound = new QMediaPlayer();
     this->deathsound->setMedia(QUrl("qrc:/files/sounds/death.wav"));
+    this->jumpsound = new QMediaPlayer();
+    this->jumpsound->setMedia(QUrl("qrc:/files/sounds/jumpbig.wav"));
 }
 
 bool Mario::intersectTop(QRect rect)

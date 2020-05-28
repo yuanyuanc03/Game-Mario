@@ -21,6 +21,8 @@ public:
     void setGoldNumberWhenMushroom(int goldNumber) { this->goldNumberWhenMushroom = goldNumber; }
     QMediaPlayer* getDeathSound() { return this->deathsound; }
     void setDeathSound(QMediaPlayer* deathsound) { this->deathsound = deathsound; }
+    QMediaPlayer* getJumpSound() { return this->jumpsound; }
+    void setJumpSound(QMediaPlayer* jumpsound) { this->jumpsound = jumpsound; }
 
     //public methods
     bool intersectTop(QRect);
@@ -36,6 +38,7 @@ private:
     bool isHurted = false;
     bool hurt = false;
     QMediaPlayer * deathsound;
+    QMediaPlayer * jumpsound;
 };
 
 #endif // MARIO_H

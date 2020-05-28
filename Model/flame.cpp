@@ -9,5 +9,5 @@ Flame::Flame(int x, int y) : Model(x, y, ":/files/images/fire.png")
 
     //fire music
     this->fire = new QMediaPlayer();
-    this->fire->setMedia(QUrl("qrc:/files/sounds/fire.war"));
+    this->fire->setMedia(QUrl("qrc:/files/sounds/fire.wav"));
 }

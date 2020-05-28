@@ -60,13 +60,33 @@ void GameController::stopGame()
     this->gameStarted = false;
 }
 
-void GameController::marioDeath()
+void GameController::startBgMusic()
+{
+    for(int i =0; i < 2; i++)
+    {
+        this->getModelList()->getBackground()->at(i)->playBgMusic();
+    }
+}
+
+void GameController::stopBgMusic()
 {
     for(int i =0; i < 2; i++)
     {
         this->getModelList()->getBackground()->at(i)->getBgMusic()->stop();
     }
+}
 
+void GameController::pauseBgMusic()
+{
+    for(int i =0; i < 2; i++)
+    {
+        this->getModelList()->getBackground()->at(i)->getBgMusic()->pause();
+    }
+}
+
+void GameController::marioDeath()
+{
+    this->stopBgMusic();
     this->getModelList()->getMario()->getDeathSound()->play();
 }
 
@@ -101,6 +121,8 @@ void GameController::movementMario()
             this->startJumpY = this->modelList->getMario()->getRect().y();
             this->setIsJumping(false);
         }
+
+        this->getModelList()->getMario()->getJumpSound()->play();
     }
 
     if(this->intersectBottomMario(0))
@@ -305,7 +327,10 @@ bool GameController::intersectTopMario(int i)
                     }
                 }
                 else
-                    this->modelList->getBricks()->at(i)->setDestroyed(true);
+                {
+                    this->modelList->getBricks()->at(i)->setDestroyed(true);   
+                    this->getModelList()->getBricks()->at(i)->getBrickBreak()->play();
+                }
 
                 return true;
             }
@@ -599,6 +624,8 @@ void GameController::intersectTreeMario(int i)
     {
         this->showBloodCount = 0;
         this->modelList->getMario()->setIsHurted(true);
+
+        this->getModelList()->getTrees()->at(i)->getTreeSound()->play();
     }
 }
 
@@ -812,13 +839,6 @@ bool GameController::GameOver(){
             this->modelList->getSplashScreen()->setType(SplashScreenType::GAME_OVER);
         }
         this->modelList->getSplashScreen()->setIsSplashScreen(true);
-
-//        for(int i =0; i < 2; i++)
-//        {
-//            this->getModelList()->getBackground()->at(i)->getBgMusic()->stop();
-//        }
-
-//        this->getModelList()->getMario()->getDeathSound()->play();
 
         return true;
     }
