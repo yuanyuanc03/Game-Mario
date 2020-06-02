@@ -34,6 +34,8 @@ public:
     inline void setOpacity(qreal opacity) { this->opacity = opacity; }
     inline int getXRelatif() { return this->xRelatif; }
     inline void setXRelatif(int x) { this->xRelatif = x; }
+    inline void setTimerId(int id) { this->timerId = id; }
+    inline int getTimerId() { return this->timerId; }
 
     //public methods
     void Princess();

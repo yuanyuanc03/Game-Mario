@@ -8,6 +8,6 @@ Princess::Princess(int x, int y): Player(x, y)
 
     //princess music
     this->princesssound = new QMediaPlayer();
-    this->princesssound->setMedia(QUrl(":/files/sounds/princessmusic.wav"));
+    this->princesssound->setMedia(QUrl("qrc:/files/sounds/princessmusic.wav"));
     this->princesssound->play();
 }

@@ -7,9 +7,9 @@ Mushroom::Mushroom(int x, int y , bool up) : Model(x, y, ":/files/images/champ.p
 
     //mushroom music
     this->mushroomappear = new QMediaPlayer();
-    this->mushroomappear->setMedia(QUrl(":/files/sounds/mushroomappear.wav"));
+    this->mushroomappear->setMedia(QUrl("qrc:/files/sounds/mushroomappear.wav"));
     this->mushroomappear->play();
     this->mushroomeat = new QMediaPlayer();
-    this->mushroomeat->setMedia(QUrl(":/files/sounds/mushroomeat.wav"));
+    this->mushroomeat->setMedia(QUrl("qrc:/files/sounds/mushroomeat.wav"));
 }
 

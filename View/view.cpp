@@ -13,7 +13,6 @@
 
 View::View(QWidget *parent): QWidget(parent)
 {
-
 }
 
 View::~View()
@@ -132,9 +131,6 @@ void View::paintEvent(QPaintEvent *event)
     QString goldText = QString::number(this->controller->getModelList()->getMario()->getGoldNumber());
     painter.drawText(this->controller->getModelList()->getScore()->getGoldPosition(), goldText);
 
-//    QObject::connect(this->controller->getModelList()->getTime()->timer, SIGNAL(timeout()), this->controller->getModelList()->getTime(), SLOT(realTime()));
-//    this->controller->getModelList()->getTime()->timer->start(1000);
-
     QString timeText = QString::number(this->controller->getModelList()->getTime()->getTime());
     painter.drawText(this->controller->getModelList()->getScore()->getClockPosition(), timeText);
 
@@ -192,12 +188,24 @@ void View::keyPressEvent(QKeyEvent *event)
             this->controller->setXRelatif(-100);
         }
 
+        else if(event->key() == Qt::Key_Return)
+        {
+            if(this->pauseFlag == false)
+            {
+                this->controller->killTimer(this->controller->getTimerId());
+                this->controller->getModelList()->getTime()->timer->stop();
+                this->pauseFlag = true;
+            }
+            else
+            {
+                this->controller->setTimerId(this->controller->startTimer(15));
+                this->controller->getModelList()->getTime()->timer->start(1000);
+                this->pauseFlag = false;
+            }
+        }
+
         else
             event->ignore();
-    }
-
-    else if(event->key() == Qt::Key_Enter)
-    {
     }
 
     if (event->key() == Qt::Key_Escape)

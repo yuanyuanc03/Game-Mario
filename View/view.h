@@ -48,8 +48,9 @@ private:
 
     //private attributes
     GameController *controller;
-    int marioSize;
-    QTimer *autoMoveTimer;
+    bool pauseFlag = false;
+    //int marioSize;
+    //QTimer *autoMoveTimer;
 };
 
 #endif // VIEW_H

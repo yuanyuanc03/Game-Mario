@@ -1,5 +1,6 @@
 #include "background.h"
 
+
 Background::Background(int x, int y) : Model(x, y, ":/files/images/background.png")
 {
     //set background size

@@ -513,6 +513,8 @@ void GameController::intersectFlameMario(int i)
         this->showBloodCount = 0;
         this->modelList->getMario()->setIsHurted(true);
         this->modelList->getFlames()->at(i)->getFire()->play();
+        if(this->getModelList()->getTime()->getTime() == -1 || this->getModelList()->getMario()->getLife() == -1)
+            this->modelList->getFlames()->at(i)->getFire()->stop();
     }
 }
 
@@ -536,6 +538,8 @@ void GameController::intersectXDarkEaterMario(int i)
         this->modelList->getMario()->setIsHurted(true);
 
         this->getModelList()->getDarkEaters()->at(i)->getBoom()->play();
+        if(this->getModelList()->getTime()->getTime() == -1 || this->getModelList()->getMario()->getLife() == -1)
+            this->getModelList()->getDarkEaters()->at(i)->getBoom()->stop();
     }
 }
 
@@ -553,6 +557,8 @@ void GameController::intersectYDarkEaterMario(int i)
         this->modelList->getDarkEaters()->at(i)->setDestroyed(true);
 
         this->getModelList()->getDarkEaters()->at(i)->getBoom()->play();
+        if(this->getModelList()->getTime()->getTime() == -1 || this->getModelList()->getMario()->getLife() == -1)
+            this->getModelList()->getDarkEaters()->at(i)->getBoom()->stop();
     }
 }
 
@@ -626,6 +632,8 @@ void GameController::intersectTreeMario(int i)
         this->modelList->getMario()->setIsHurted(true);
 
         this->getModelList()->getTrees()->at(i)->getTreeSound()->play();
+        if(this->getModelList()->getTime()->getTime() == -1 || this->getModelList()->getMario()->getLife() == -1)
+            this->getModelList()->getTrees()->at(i)->getTreeSound()->stop();
     }
 }
 
