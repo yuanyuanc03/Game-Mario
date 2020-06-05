@@ -23,7 +23,7 @@ public:
 
 private:
     //private attributes
-    bool show = false;
+    bool show = false; //if shock shows or not
 };
 
 #endif // SHOCK_H

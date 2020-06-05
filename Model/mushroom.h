@@ -21,8 +21,8 @@ public:
     void setMushroomEat(QMediaPlayer* mEat) { this->mushroomeat = mEat; }
 
 private:
-    int moveCount = 37;
-    bool up = true;
+    int moveCount = 37; //mushroom movement count
+    bool up = true; //mushroom appears or not
     QMediaPlayer * mushroomappear;
     QMediaPlayer * mushroomeat;
 };

@@ -61,8 +61,6 @@ public:
     inline QList<Tree*> *getTrees() { return this->trees; }
     inline QList<DarkEater*> *getDarkEaters() { return this->darkeaters; }
     inline QList<Model*> *getModels() { return this->models; }
-    //inline int getSpeed() { return this->speed; }
-    //inline void setSpeed(int speed) { this->speed = speed; }
     bool getDarkEaterBool() { return this->darkEaterBool; }
     void setDarkEaterBool(bool darkEaterBool) { this->darkEaterBool = darkEaterBool; }
     bool getIsPrincessBool() { return this->isPrincessBool; }
@@ -109,11 +107,10 @@ private:
     QList<QChar> list4;
     QList<QChar> list5;
     QList<QChar> list6;
-    int backgroundCount=0;
-    int mapPosition = 7;
-    //int speed = 4;
-    bool darkEaterBool;
-    bool isPrincessBool = false;
+    int backgroundCount = 0;
+    int mapPosition = 7; //the position of reading the file txt for each line
+    bool darkEaterBool; //darkeater show up or not
+    bool isPrincessBool = false; //princess show up or not
 };
 
 #endif // MODEL_H

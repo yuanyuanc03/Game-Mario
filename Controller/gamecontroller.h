@@ -25,17 +25,12 @@ public:
     inline void setIsMovingL(bool is) { this->getModelList()->getMario()->setIsMovingL(is); }
     inline void setIsJumping(bool is) { this->getModelList()->getMario()->setIsJumping(is); }
     inline void setIsAttacking(bool is) { this->getModelList()->getMario()->setIsAttacking(is); }
-    //inline void setIsGameOver(bool is) { this->isGameOver = is; }
-    //inline bool getIsGameOVer() { return this->isGameOver; }
-    bool getMoveMap() { return this->moveMap; }
-    //inline std::tuple<> getAllObjects();
     inline ModelList *getModelList(){ return this->modelList; }
-    //inline qreal getOpacity() { return this->opacity; }
-    //inline void setOpacity(qreal opacity) { this->opacity = opacity; }
     inline int getXRelatif() { return this->xRelatif; }
     inline void setXRelatif(int x) { this->xRelatif = x; }
     inline void setTimerId(int id) { this->timerId = id; }
     inline int getTimerId() { return this->timerId; }
+    bool getMoveMap() { return this->moveMap; }
 
     //public methods
     void Princess();
@@ -84,25 +79,21 @@ private:
     //private attributes
     ModelList *modelList;
     View *view;
-    bool gameStarted;
-    int xRelatif;
-    int yRelatif;
-    int startJumpY;
-    int iterBackground;
-    int marioSize;
-    int tempMove = 0;
-    int tempDarkEater = 0;
-    int tempGold = 0;
-    int tempFlame = 0;
-    int tempShock = 0;
-    int princessTempo = 0;
-    int showBloodCount = 0;
-    int labelTime = 0;
-    int timerId = 0;
-    //qreal opacity = 1;
-    //bool isLittle;
-    //bool isGameOver = false;
-    bool moveMap = false;
+    bool gameStarted; //if game is started
+    int xRelatif; //x relatif position
+    int yRelatif; //y relatif position
+    int startJumpY; //mario start jump Y position
+    int iterBackground; //init iterBackground = 2
+    int tempMove = 0; //movement interval time
+    int tempDarkEater = 0; //darkeater movement interval time
+    int tempGold = 0; //fold movement interval time
+    int tempFlame = 0; //flame movement interval time
+    int tempShock = 0; //shock movement interval time
+    int princessTempo = 0; //princess movement interval time
+    int showBloodCount = 0; //show blood time
+    int labelTime = 0; //show label time
+    int timerId = 0; //timer id
+    bool moveMap = false; //move map or not
 
     //private methods
     void timerEvent(QTimerEvent *event);

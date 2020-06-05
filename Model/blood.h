@@ -14,7 +14,7 @@ public:
     void setStopBlood(bool show) { this->show = show; }
 
 private:
-    bool show = false;
+    bool show = false; //show blood or not
 };
 
 #endif // BLOOD_H

@@ -1,12 +1,4 @@
 #include "view.h"
-#include <QPainter>
-#include <iostream>
-#include <QApplication>
-#include <QDebug>
-#include <QRect>
-#include <tuple>
-#include <QTimer>
-#include <QObject>
 #include "Model/modellist.h"
 #include "Model/paint.h"
 
@@ -125,10 +117,12 @@ void View::paintEvent(QPaintEvent *event)
     if(this->controller->getModelList()->getLabel()->getShow())
         this->controller->getModelList()->getLabel()->accept(paint);
 
+    //clock and gold image
     painter.drawImage(this->controller->getModelList()->getScore()->getRect().width() - 0, this->controller->getModelList()->getScore()->getRect().height()/8, this->controller->getModelList()->getScore()->getClock());
     painter.drawImage(this->controller->getModelList()->getScore()->getRect().width() - 400, this->controller->getModelList()->getScore()->getRect().height()/8, this->controller->getModelList()->getScore()->getGold());
     painter.setFont(QFont("Tahoma", 17, 0, true));
 
+    //goldnumber and timecount text
     QString goldText = QString::number(this->controller->getModelList()->getMario()->getGoldNumber());
     painter.drawText(this->controller->getModelList()->getScore()->getGoldPosition(), goldText);
 
@@ -174,21 +168,26 @@ void View::keyPressEvent(QKeyEvent *event)
 {
     if(!this->controller->GameOver())
     {
+        //go right
         if(event->key() == Qt::Key_Right)
             this->controller->setIsMovingR(true);
 
+        //go right
         else if(event->key() == Qt::Key_Left)
             this->controller->setIsMovingL(true);
 
+        //attack the enemies
         else if(event->key() == Qt::Key_Down && this->controller->getIsJumping())
             this->controller->setIsAttacking(true);
 
+        //jumping
         else if(event->key() == Qt::Key_Space && this->controller->intersectBottomMario(0))
         {
             this->controller->setIsJumping(true);
             this->controller->setXRelatif(-100);
         }
 
+        //pause the game
         else if(event->key() == Qt::Key_Return)
         {
             if(this->pauseFlag == false)
@@ -209,6 +208,7 @@ void View::keyPressEvent(QKeyEvent *event)
             event->ignore();
     }
 
+    //exit the game
     if (event->key() == Qt::Key_Escape)
     {
         this->controller->stopGame();

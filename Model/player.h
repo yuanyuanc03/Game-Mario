@@ -70,7 +70,7 @@ protected:
 private:
     //private attributes
     bool unTouchable = false;
-    int life = 5;
+    int life = 5; //the number of lifes
     int invicible = 0;
 };
 

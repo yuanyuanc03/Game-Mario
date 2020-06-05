@@ -20,7 +20,7 @@ public:
 
 private:
     //private attributes
-    int capacity = 0;
+    int capacity = 0; //the capacity of brick indicate the number of times to break a brick
     QMediaPlayer * brickhit;
     QMediaPlayer * brickbreak;
 };

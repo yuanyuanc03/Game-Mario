@@ -17,7 +17,7 @@ public:
     void setTreeSound(QMediaPlayer* treeSound) { this->treesound = treeSound; }
 
 private:
-    int moveCount = 50;
+    int moveCount = 50; //tree movement range
     QMediaPlayer * treesound;
 };
 

@@ -8,16 +8,17 @@
 #include "Model/label.h"
 #include "Model/splashscreen.h"
 #include "gamecontroller.h"
-#include <QDebug>
 
 class ModelList;
 class Model;
 class View;
 
+//current frame position of sprite images
 int Gold::currentFrame = 0;
 int Shock::currentFrame = 0;
 int Flame::currentFrame = 0;
 int DarkEater::currentFrame = 0;
+//the moving range of each movement
 int Model::speed = 4;
 
 GameController::GameController(ModelList *model, View *view): QObject()
@@ -34,6 +35,7 @@ GameController::GameController(ModelList *model, View *view): QObject()
 
 GameController::~GameController()
 {
+    //kill timer
     this->killTimer(timerId);
 }
 
@@ -54,6 +56,7 @@ void GameController::timerEvent(QTimerEvent *)
     this->GameOver();
     this->Completed();
     this->intersectPrincessMario();
+    //repaint the screen
     this->view->repaint();
 }
 
@@ -200,6 +203,7 @@ void GameController::movementMario()
     }
 }
 
+//the move action of princess
 void GameController::movementPrincess()
 {
     if(this->modelList->getIsPrincessBool())
@@ -219,12 +223,14 @@ void GameController::movementPrincess()
     }
 }
 
+//the position of label
 void GameController::movementLabel()
 {
     if(this->modelList->getLabel()->getShow())
         this->modelList->getLabel()->move(this->modelList->getMario()->getRect().x(), this->modelList->getMario()->getRect().y() - 100);
 }
 
+//the move action of mushroom
 void GameController::movementMushroom(int i)
 {
     int x = this->modelList->getMushrooms()->at(i)->getRect().x();
@@ -252,6 +258,7 @@ void GameController::movementMushroom(int i)
         this->moveModel(x, this->modelList->getMushrooms()->at(i));
 }
 
+//the move action of tree
 void GameController::movementTree(int i)
 {
     if(this->modelList->getTrees()->at(i)->getIsMovingL())
@@ -273,6 +280,7 @@ void GameController::movementTree(int i)
     }
 }
 
+//the move acction of model
 void GameController::moveModel(int x, Model *model)
 {
     int speed;
@@ -342,6 +350,7 @@ void GameController::moveXMario(int y)
     this->modelList->getMario()->move(x, y);
 }
 
+//collision of princess and mario
 void GameController::intersectPrincessMario()
 {
     if(this->modelList->getIsPrincessBool())
@@ -359,7 +368,7 @@ void GameController::intersectPrincessMario()
     }
 }
 
-// when mario intersect with floor or brick over the mario.
+//when mario intersect with floor or brick over the mario
 bool GameController::intersectTopMario(int i)
 {
     if(i < this->modelList->getFloors()->size() || i < this->modelList->getBricks()->size())
@@ -399,6 +408,7 @@ bool GameController::intersectTopMario(int i)
         return false;
 }
 
+//when mario intersect with floor, brick, tree or darkeater under the mario
 bool GameController::intersectBottomMario(int i)
 {
     if(i < this->modelList->getFloors()->size()|| i < this->modelList->getBricks()->size()
@@ -456,6 +466,7 @@ bool GameController::intersectBottomMario(int i)
         return false;
 }
 
+//when mario intersect with floor, brick, tree or darkeater which is left of the mario
 bool GameController::intersectLeftMario(int i)
 {
     if(i < this->modelList->getFloors()->size()|| i < this->modelList->getBricks()->size()
@@ -495,6 +506,7 @@ bool GameController::intersectLeftMario(int i)
         return false;
 }
 
+//when mario intersect with floor, brick, tree or darkeater which is right of the mario
 bool GameController::intersectRightMario(int i)
 {
     if(i < this->modelList->getFloors()->size() || i < this->modelList->getBricks()->size()
@@ -534,6 +546,7 @@ bool GameController::intersectRightMario(int i)
         return false;
 }
 
+//collision of gold and mario
 void GameController::intersectGoldMario(int i)
 {
     if(this->modelList->getMario()->intersect(this->modelList->getGolds()->at(i)->getRect()))
@@ -545,6 +558,7 @@ void GameController::intersectGoldMario(int i)
     }
 }
 
+//collision of flame and mario
 void GameController::intersectFlameMario(int i)
 {
     if(this->modelList->getMario()->intersect(this->modelList->getFlames()->at(i)->getRect()) && !this->modelList->getMario()->getUntouchable())
@@ -557,6 +571,7 @@ void GameController::intersectFlameMario(int i)
     }
 }
 
+//collision of darkeater and mario in X axis
 void GameController::intersectXDarkEaterMario(int i)
 {
     if(!this->modelList->getMario()->getUntouchable() && !getIsAttacking()
@@ -582,6 +597,7 @@ void GameController::intersectXDarkEaterMario(int i)
     }
 }
 
+//collision of darkeater and mario in Y axis
 void GameController::intersectYDarkEaterMario(int i)
 {
     if(!this->modelList->getMario()->getIsMovingL() && !this->modelList->getMario()->getIsMovingR() && !this->modelList->getDarkEaters()->at(i)->isDestroyed())
@@ -601,7 +617,7 @@ void GameController::intersectYDarkEaterMario(int i)
     }
 }
 
-//when eat a mushroom, we can add a life and speed up
+//when eat a mushroom, we can get little and speed up
 void GameController::intersectMushroomMario(int i)
 {
     if(this->modelList->getMario()->intersect(this->modelList->getMushrooms()->at(i)->getRect()))
@@ -609,13 +625,14 @@ void GameController::intersectMushroomMario(int i)
         this->modelList->getMushrooms()->at(i)->setDestroyed(true);
         this->modelList->getMario()->setIsLittle(true);
         this->modelList->getMario()->setGoldNumberWhenMushroom(this->modelList->getMario()->getGoldNumber());
-        this->modelList->getMario()->setLife(this->modelList->getMario()->getLife() + 1);
+        //this->modelList->getMario()->setLife(this->modelList->getMario()->getLife() + 1);
         Model::speed = 6;
 
         this->getModelList()->getMushrooms()->at(i)->getMushroomEat()->play();
     }
 }
 
+//collision of tree and mario
 void GameController::intersectTreeMario(int i)
 {
     if(!this->modelList->getMario()->getUntouchable() && !this->modelList->getTrees()->at(i)->getIsDead())
@@ -629,6 +646,7 @@ void GameController::intersectTreeMario(int i)
     }
 }
 
+//when model intersect with floor or brick under the model
 bool GameController::intersectBottomModel(Model * m)
 {
     for(int i = 0; i < this->modelList->getFloors()->size(); i++)
@@ -645,6 +663,7 @@ bool GameController::intersectBottomModel(Model * m)
     return false;
 }
 
+//when model intersect with floor or brick which is left of the mario
 bool GameController::intersectLeftModel(Model * m)
 {
     for(int i = 0; i < this->modelList->getFloors()->size(); i++)
@@ -660,6 +679,7 @@ bool GameController::intersectLeftModel(Model * m)
     return false;
 }
 
+//when model intersect with floor or brick which is right of the mario
 bool GameController::intersectRightModel(Model * m)
 {
     for(int i = 0; i < this->modelList->getFloors()->size(); i++)
@@ -863,10 +883,10 @@ bool GameController::GameOver()
         return false;
 }
 
-//when goldnumber > 200, complete the game
+//when goldnumber > 150, complete the game
 bool GameController::Completed()
 {
-    if(this->modelList->getMario()->getGoldNumber() >= 200)
+    if(this->modelList->getMario()->getGoldNumber() >= 150)
     {
         if(this->modelList->getSplashScreen()->getType() != SplashScreenType::COMPLETED)
         {
@@ -925,19 +945,3 @@ void GameController::Label()
             this->labelTime++;
     }
 }
-
-//void GameController::fantom()
-//{
-//    if(this->modelList->getMario()->getDieRect().bottom() > this->modelList->getMario()->getRect().top() - 200)
-//    {
-//        int x = this->modelList->getMario()->getDieRect().x();
-//        int y = this->modelList->getMario()->getDieRect().y();
-//        this->modelList->getMario()->moveDie(x, y);
-//    }
-//    else
-//    {
-//        this->modelList->getMario()->setUntouchable(false);
-//        this->modelList->getMario()->setIsHurted(false);
-//        this->modelList->getBlood()->setStopBlood(false);
-//    }
-//}

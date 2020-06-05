@@ -16,6 +16,7 @@ Mario::Mario(int x, int y): Player(x,y)
     this->jumpsound->setMedia(QUrl("qrc:/files/sounds/jump.wav"));
 }
 
+//top collision of rect
 bool Mario::intersectTop(QRect rect)
 {
     if(rect.intersected(this->getRect()).width() > 7 && this->getRect().y() > rect.y())
@@ -26,6 +27,7 @@ bool Mario::intersectTop(QRect rect)
     return false;
 }
 
+//bottom collision of rect
 bool Mario::intersectBottom(QRect rect)
 {
     if(rect.intersected(this->getRect()).width() > 5 && this->getRect().y() < rect.y())
@@ -36,6 +38,7 @@ bool Mario::intersectBottom(QRect rect)
     return false;
 }
 
+//right collision of rect
 bool Mario::intersectRight(QRect rect)
 {
     if(rect.intersected(this->getRect()).height() > 5 && this->getRect().x() < rect.x() )
@@ -43,6 +46,7 @@ bool Mario::intersectRight(QRect rect)
     return false;
 }
 
+//left collision of rect
 bool Mario::intersectLeft(QRect rect)
 {
     if(rect.intersected(this->getRect()).height() > 5 && this->getRect().x() > rect.x())

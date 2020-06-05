@@ -7,11 +7,13 @@ Paint::Paint(QPainter *painter)
     this->painter = painter;
 }
 
+//draw the model pixmap
 void Paint::drawModel(Model *model)
 {
     this->painter->drawPixmap(model->getRect(), model->getModel(), model->getSrcRect());
 }
 
+//draw the player pixmap
 void Paint::drawPlayer(Player *player)
 {
     if(player->getIsMovingR())

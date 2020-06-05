@@ -4,9 +4,12 @@
 
 Score::Score()
 {
+    //the position of the score and time
     this->rect = QRect(0, 0, 900, 40);
     this->color = QColor(Qt::white);
     this->text = QString("life");
+
+    //load the heart image
     this->heart = QImage();
     this->heart.load(":/files/images/heart.png");
     this->heartSize = heart.rect();

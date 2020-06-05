@@ -24,7 +24,7 @@ public slots:
 
 private:
     //private attributes
-    int time;
+    int time; //time count
 };
 
 

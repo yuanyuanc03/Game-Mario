@@ -32,11 +32,11 @@ public:
 
 private:
     //private attributes
-    int goldNumber;
-    int goldNumberWhenMushroom;
-    bool isLittle = false;
-    bool isHurted = false;
-    bool hurt = false;
+    int goldNumber; //gold number
+    int goldNumberWhenMushroom; //when mario eats a mushroom, save the current gold number
+    bool isLittle = false; //mario is little or not
+    bool isHurted = false; //mario is hurted or not
+    //bool hurt = false;
     QMediaPlayer * deathsound;
     QMediaPlayer * jumpsound;
 };

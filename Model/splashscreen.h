@@ -3,7 +3,7 @@
 
 #include "model.h"
 
-enum struct SplashScreenType { GO, GAME_OVER, COMPLETED };
+enum struct SplashScreenType { GO, GAME_OVER, COMPLETED }; //splash screen types
 
 class SplashScreen: public Model
 {
@@ -19,8 +19,8 @@ public:
 
 private:
     //private attributes
-    bool isSplashScreen = true;
-    SplashScreenType type = SplashScreenType::GO;
+    bool isSplashScreen = true; //update screen or not
+    SplashScreenType type = SplashScreenType::GO; //init type = go
 };
 
 #endif // SPLASHSCREEN_H

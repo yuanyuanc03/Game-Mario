@@ -1,6 +1,7 @@
 #include "modellist.h"
 #include <QFile>
 
+
 ModelList::ModelList()
 {
     this->background = new QList<Background *>;
@@ -143,6 +144,7 @@ ModelList::~ModelList()
     delete this->splashscreen;
 }
 
+//create a model using the list and number of the line, x is the coordinate of the last model of the modellist
 void ModelList::createModel(QList<QChar> c, int num, int x)
 {
     QChar myChar = c.at(this->mapPosition);
@@ -223,6 +225,7 @@ void ModelList::createModel(QList<QChar> c, int num, int x)
     }
 }
 
+//manage all the models
 void ModelList::modelOrganisation()
 {
     for(int i = 0; i < this->background->size(); i++)
@@ -299,6 +302,7 @@ void ModelList::modelOrganisation()
     }
 }
 
+//create mushroom in(x+9, y+10)
 void ModelList::createMushroom(int x, int y, bool up)
 {
     Mushroom *m = new Mushroom(x + 9, y + 10, up);
@@ -308,22 +312,26 @@ void ModelList::createMushroom(int x, int y, bool up)
     this->mushrooms->append(m);
 }
 
+//create gameover using splashscreen in (x, y)
 void ModelList::createGameOver(int x, int y)
 {
     this->splashscreen = new SplashScreen(x, y, ":/files/images/gameover.png");
 }
 
+//create completed using splashscreen in (x, y)
 void ModelList::createCompleted(int x, int y)
 {
     this->splashscreen = new SplashScreen(x, y, ":/files/images/level_complete.png");
 }
 
+//create princess in (x, y)
 void ModelList::createPrincess(int x, int y)
 {
     this->princess = new Princess(x, y);
     this->princess->setIsMovingL(true);
 }
 
+//create label in (x, y)
 void ModelList::createLabel(int x, int y, QString path)
 {
     this->label = new Label(x, y, path);

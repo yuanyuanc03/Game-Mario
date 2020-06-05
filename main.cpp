@@ -1,6 +1,4 @@
 #include "Controller/gamecontroller.h"
-#include <QDesktopWidget>
-#include <QApplication>
 #include "Model/modellist.h"
 #include "View/view.h"
 class View;
@@ -32,6 +30,8 @@ int main(int argc, char *argv[])
     GameController window(&model, &view);
     view.setWindowTitle("Mario Game");
     view.show();
+
+    //set the screen in center
     center(view);
     return app.exec();
 }

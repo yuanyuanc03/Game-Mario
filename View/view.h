@@ -16,20 +16,6 @@ class GameController;
 
 class View: public QWidget
 {
-    //Q_OBJECT
-//public:
-//    View(QWidget *parent=0);
-
-//    QGraphicsScene * scene;
-//    QGraphicsView * view;
-//    QLabel * label;
-//    QPainter painter;
-//    Background * background;
-//    Mario * mario;
-//    Gold * gold;
-//    Score * score;
-//    Time * time;
-
     Q_OBJECT
 public:
     //constructor and destructor
@@ -48,9 +34,7 @@ private:
 
     //private attributes
     GameController *controller;
-    bool pauseFlag = false;
-    //int marioSize;
-    //QTimer *autoMoveTimer;
+    bool pauseFlag = false; //pause game or not
 };
 
 #endif // VIEW_H

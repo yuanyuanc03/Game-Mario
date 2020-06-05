@@ -12,6 +12,7 @@ Background::Background(int x, int y) : Model(x, y, ":/files/images/background.pn
     this->playBgMusic();
 }
 
+//move left the background
 void Background::moveBg()
 {
     this->rect.moveTo(this->rect.left() - Model::speed/2, this->rect.top());

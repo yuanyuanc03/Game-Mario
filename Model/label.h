@@ -3,7 +3,7 @@
 
 #include "model.h"
 
-enum struct LabelType {GOLD, LOVE, HURT, FUCK, NONE};
+enum struct LabelType {GOLD, LOVE, HURT, FUCK, NONE}; //5 types of label
 
 class Label: public Model
 {
@@ -19,8 +19,8 @@ public:
 
 private:
     //private attributes
-    bool show = false;
-    LabelType type;
+    bool show = false; //show label or not
+    LabelType type; //label type
 };
 
 #endif // LABEL_H

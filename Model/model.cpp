@@ -1,6 +1,7 @@
 #include "model.h"
 #include <QtDebug>
 
+
 Model::Model(int x, int y)
 {
     this->destroyed = false;
@@ -25,21 +26,25 @@ Model::~Model()
 
 }
 
+//move the origin to (x, y)
 void Model::move(int x, int y)
 {
     this->rect.moveTo(x, y);
 }
 
+//move left the model
 void Model::moveLModel()
 {
     this->rect.moveTo(this->rect.left() - Model::speed, this->rect.top());
 }
 
+//move right the model
 void Model::moveRModel()
 {
     this->rect.moveTo(this->rect.left() + Model::speed, this->rect.top());
 }
 
+//top collision of modelrect
 bool Model::intersectTop(QRect rect)
 {
     if(rect.intersected(this->getRect()).width() > 7 && this->getRect().y() > rect.y())
@@ -50,6 +55,7 @@ bool Model::intersectTop(QRect rect)
     return false;
 }
 
+//bottom collision of modelrect
 bool Model::intersectBottom(QRect rect)
 {
     if(rect.intersected(this->rect).width() > 5 && this->rect.y() < rect.y())
@@ -60,6 +66,7 @@ bool Model::intersectBottom(QRect rect)
     return false;
 }
 
+//right collision of modelrect
 bool Model::intersectRight(QRect rect)
 {
     if(rect.intersected(this->rect).height() > 5 && this->rect.x() < rect.x() )
@@ -67,6 +74,7 @@ bool Model::intersectRight(QRect rect)
     return false;
 }
 
+//left collision of modelrect
 bool Model::intersectLeft(QRect rect)
 {
     if(rect.intersected(this->rect).height() > 5 && this->rect.x() > rect.x())
@@ -74,6 +82,7 @@ bool Model::intersectLeft(QRect rect)
     return false;
 }
 
+//save the ressources as PNG
 void Model::convertPNG(QString path)
 {
     QImage image(path);

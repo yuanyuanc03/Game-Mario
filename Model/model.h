@@ -52,15 +52,15 @@ public:
 
 private:
     //private attributes
-    bool destroyed;
-    bool moveX = true;
-    int xR = 0;
-    int yR = 0;
-    int startY;
+    bool destroyed; //model is destroyed or not
+    bool moveX = true; //model move in the x axis or not
+    int xR = 0; //x relatif position
+    int yR = 0; //y relatif position
+    int startY;  //model start y position
 
 protected:
     //protected attributes
-    QString path;
+    QString path; //image path
     QImage image;
     QPixmap model;
     QRect rect;
