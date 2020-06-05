@@ -28,7 +28,7 @@ GameController::GameController(ModelList *model, View *view): QObject()
     this->gameStarted = true;
     this->xRelatif = -100;
     this->yRelatif = 0;
-    this->iterBackground=0;
+    this->iterBackground = 0;
     this->timerId = this->startTimer(15);
 }
 
@@ -37,29 +37,33 @@ GameController::~GameController()
     this->killTimer(timerId);
 }
 
+//timeEvent which run each 15ms
 void GameController::timerEvent(QTimerEvent *)
 {
-    this->hurted();
+    this->modelList->modelOrganisation();
+    this->splashScreen();
     this->movementMario();
-    this->Princess();
     this->movementPrincess();
-    this->intersectPrincessMario();
-    this->Label();
     this->movementLabel();
     this->goldAnimation();
     this->flameAnimation();
     this->shockAnimation();
-    this->modelList->modelOrganisation();
-    this->splashScreen();
+    this->hurted();
+    this->Princess();
+    this->Label();
     this->GameOver();
+    this->Completed();
+    this->intersectPrincessMario();
     this->view->repaint();
 }
 
+//stop game
 void GameController::stopGame()
 {
     this->gameStarted = false;
 }
 
+//start background music
 void GameController::startBgMusic()
 {
     for(int i =0; i < 2; i++)
@@ -68,6 +72,7 @@ void GameController::startBgMusic()
     }
 }
 
+//stop background music
 void GameController::stopBgMusic()
 {
     for(int i =0; i < 2; i++)
@@ -76,6 +81,7 @@ void GameController::stopBgMusic()
     }
 }
 
+//pause background music
 void GameController::pauseBgMusic()
 {
     for(int i =0; i < 2; i++)
@@ -84,15 +90,18 @@ void GameController::pauseBgMusic()
     }
 }
 
+//when mario is dead, play death music
 void GameController::marioDeath()
 {
     this->stopBgMusic();
     this->getModelList()->getMario()->getDeathSound()->play();
 }
 
+//the move action of mario
 void GameController::movementMario()
 {
     int y = this->modelList->getMario()->getRect().y();
+
     if(this->modelList->getMario()->getIsLittle() && (this->modelList->getMario()->getGoldNumber() > this->modelList->getMario()->getGoldNumberWhenMushroom() + 30))
         this->modelList->getMario()->setIsLittle(false);
 
@@ -109,7 +118,7 @@ void GameController::movementMario()
                 this->xRelatif += 1;
         }
 
-        this->yRelatif = (-0.02*(this->xRelatif*this->xRelatif)+200);
+        this->yRelatif = (-0.02 * (this->xRelatif * this->xRelatif) + 200);
         y = this->startJumpY - this->yRelatif;
         this->moveXMario(y);
         this->modelList->getMario()->setCurrentFrame(0);
@@ -159,7 +168,7 @@ void GameController::movementMario()
 
         else if(this->getIsMovingL() && tempMove == 1)
         {
-            for(int i=0;i<57;i++)
+            for(int i = 0; i < 57; i++)
                 this->modelList->getMario()->setCurrentFrame(this->modelList->getMario()->getCurrentFrame() - 1);
             if (this->modelList->getMario()->getCurrentFrame() <= 0 )
                 this->modelList->getMario()->setCurrentFrame(1191);
@@ -210,9 +219,16 @@ void GameController::movementPrincess()
     }
 }
 
+void GameController::movementLabel()
+{
+    if(this->modelList->getLabel()->getShow())
+        this->modelList->getLabel()->move(this->modelList->getMario()->getRect().x(), this->modelList->getMario()->getRect().y() - 100);
+}
+
 void GameController::movementMushroom(int i)
 {
     int x = this->modelList->getMushrooms()->at(i)->getRect().x();
+    //init moveCount = 37
     if(this->modelList->getMushrooms()->at(i)->getMoveCount() > 0)
     {
         this->modelList->getMushrooms()->at(i)->setmoveCount(this->modelList->getMushrooms()->at(i)->getMoveCount() - 1);
@@ -234,6 +250,27 @@ void GameController::movementMushroom(int i)
 
     else
         this->moveModel(x, this->modelList->getMushrooms()->at(i));
+}
+
+void GameController::movementTree(int i)
+{
+    if(this->modelList->getTrees()->at(i)->getIsMovingL())
+    {
+        if(this->modelList->getTrees()->at(i)->getMoveCount() > 0)
+        {
+            this->modelList->getTrees()->at(i)->setmoveCount(this->modelList->getTrees()->at(i)->getMoveCount() - 2);
+            this->modelList->getTrees()->at(i)->move(this->modelList->getTrees()->at(i)->getRect().x(), this->modelList->getTrees()->at(i)->getRect().y() - 2);
+        }
+
+        else if(this->modelList->getTrees()->at(i)->getMoveCount() > - 120)
+        {
+            this->modelList->getTrees()->at(i)->setmoveCount(this->modelList->getTrees()->at(i)->getMoveCount() - 2);
+            this->modelList->getTrees()->at(i)->move(this->modelList->getTrees()->at(i)->getRect().x(), this->modelList->getTrees()->at(i)->getRect().y() + 2);
+        }
+
+        else
+            this->modelList->getTrees()->at(i)->setmoveCount(120);
+    }
 }
 
 void GameController::moveModel(int x, Model *model)
@@ -286,6 +323,7 @@ void GameController::moveModel(int x, Model *model)
     }
 }
 
+//move mario in the x axis
 void GameController::moveXMario(int y)
 {
     int x = this->modelList->getMario()->getRect().x();
@@ -298,13 +336,30 @@ void GameController::moveXMario(int y)
 
     if( !this->intersectRightMario(0) && this->modelList->getMario()->getRect().x()>=350  && this->getIsMovingR() )
         this->moveMap=true;
-
     else
         this->moveMap=false;
 
-    this->modelList->getMario()->move(x,y);
+    this->modelList->getMario()->move(x, y);
 }
 
+void GameController::intersectPrincessMario()
+{
+    if(this->modelList->getIsPrincessBool())
+    {
+        if(this->modelList->getMario()->intersect(this->modelList->getPrincess()->getRect()))
+        {
+            this->modelList->getLabel()->setShow(true);
+            this->labelTime = 0;
+            if(this->modelList->getLabel()->getType() != LabelType::LOVE)
+            {
+                this->modelList->createLabel(this->modelList->getMario()->getRect().x(), this->modelList->getMario()->getRect().y() - 100, ":/files/images/speech.png");
+                this->modelList->getLabel()->setType(LabelType::LOVE);
+            }
+        }
+    }
+}
+
+// when mario intersect with floor or brick over the mario.
 bool GameController::intersectTopMario(int i)
 {
     if(i < this->modelList->getFloors()->size() || i < this->modelList->getBricks()->size())
@@ -318,6 +373,7 @@ bool GameController::intersectTopMario(int i)
         {
             if(this->modelList->getMario()->intersectTop(this->modelList->getBricks()->at(i)->getRect()))
             {
+                //the maximum capacity of a brick = 2
                 if(this->modelList->getBricks()->at(i)->getCapacity())
                 {
                     if(this->modelList->getBricks()->at(i)->getCapacity() == 2)
@@ -489,23 +545,6 @@ void GameController::intersectGoldMario(int i)
     }
 }
 
-void GameController::intersectPrincessMario()
-{
-    if(this->modelList->getIsPrincessBool())
-    {
-        if(this->modelList->getMario()->intersect(this->modelList->getPrincess()->getRect()))
-        {
-            this->modelList->getLabel()->setShow(true);
-            this->labelTime = 0;
-            if(this->modelList->getLabel()->getType() != LabelType::LOVE)
-            {
-                this->modelList->createLabel(this->modelList->getMario()->getRect().x(), this->modelList->getMario()->getRect().y() - 100, ":/files/images/speech.png");
-                this->modelList->getLabel()->setType(LabelType::LOVE);
-            }
-        }
-    }
-}
-
 void GameController::intersectFlameMario(int i)
 {
     if(this->modelList->getMario()->intersect(this->modelList->getFlames()->at(i)->getRect()) && !this->modelList->getMario()->getUntouchable())
@@ -562,6 +601,7 @@ void GameController::intersectYDarkEaterMario(int i)
     }
 }
 
+//when eat a mushroom, we can add a life and speed up
 void GameController::intersectMushroomMario(int i)
 {
     if(this->modelList->getMario()->intersect(this->modelList->getMushrooms()->at(i)->getRect()))
@@ -573,6 +613,19 @@ void GameController::intersectMushroomMario(int i)
         Model::speed = 6;
 
         this->getModelList()->getMushrooms()->at(i)->getMushroomEat()->play();
+    }
+}
+
+void GameController::intersectTreeMario(int i)
+{
+    if(!this->modelList->getMario()->getUntouchable() && !this->modelList->getTrees()->at(i)->getIsDead())
+    {
+        this->showBloodCount = 0;
+        this->modelList->getMario()->setIsHurted(true);
+
+        this->getModelList()->getTrees()->at(i)->getTreeSound()->play();
+        if(this->getModelList()->getTime()->getTime() == -1 || this->getModelList()->getMario()->getLife() == -1)
+            this->getModelList()->getTrees()->at(i)->getTreeSound()->stop();
     }
 }
 
@@ -624,19 +677,7 @@ bool GameController::intersectRightModel(Model * m)
     return false;
 }
 
-void GameController::intersectTreeMario(int i)
-{
-    if(!this->modelList->getMario()->getUntouchable() && !this->modelList->getTrees()->at(i)->getIsDead())
-    {
-        this->showBloodCount = 0;
-        this->modelList->getMario()->setIsHurted(true);
-
-        this->getModelList()->getTrees()->at(i)->getTreeSound()->play();
-        if(this->getModelList()->getTime()->getTime() == -1 || this->getModelList()->getMario()->getLife() == -1)
-            this->getModelList()->getTrees()->at(i)->getTreeSound()->stop();
-    }
-}
-
+//when mario is attacking tree, show shock
 void GameController::attackTree(int i)
 {
     if(!this->modelList->getTrees()->at(i)->getIsDead() && this->modelList->getMario()->getIsAttacking())
@@ -649,20 +690,7 @@ void GameController::attackTree(int i)
     }
 }
 
-void GameController::splashScreen()
-{
-    if(this->modelList->getSplashScreen()->getType() == SplashScreenType::GO)
-    {
-        int x= this->modelList->getSplashScreen()->getRect().x();
-        int y= this->modelList->getSplashScreen()->getRect().y();
-        y--;
-        if(this->modelList->getSplashScreen()->getRect().bottom() > 0 && this->modelList->getSplashScreen()->getIsSplashScreen())
-            this->modelList->getSplashScreen()->move(x, y);
-        else
-            this->modelList->getSplashScreen()->setIsSplashScreen(false);
-    }
-}
-
+//show gold
 void GameController::goldAnimation()
 {
     if(tempGold == 20)
@@ -676,7 +704,9 @@ void GameController::goldAnimation()
         tempGold++;
 }
 
-void GameController::shockAnimation(){
+//show shock
+void GameController::shockAnimation()
+{
     if(tempShock == 3)
     {
         Shock::currentFrame += 66;
@@ -691,32 +721,7 @@ void GameController::shockAnimation(){
         tempShock++;
 }
 
-void GameController::darkeaterAnimation(int i)
-{
-    if(tempDarkEater == 15)
-    {
-        DarkEater::currentFrame += 52;
-        if (DarkEater::currentFrame >= 156)
-            DarkEater::currentFrame = 1;
-        tempDarkEater = 0;
-    }
-    else
-        tempDarkEater++;
-    int x = this->modelList->getDarkEaters()->at(i)->getRect().x();
-    if(!this->modelList->getDarkEaters()->at(i)->isDestroyed())
-    {
-        this->moveModel(x, this->modelList->getDarkEaters()->at(i));
-        this->intersectXDarkEaterMario(i);
-        if(this->modelList->getDarkEaters()->at(i)->getMoveX())
-            this->modelList->getDarkEaters()->at(i)->setModelWithPath(QString(":/files/images/dark_eater_right.png"));
-        else
-            this->modelList->getDarkEaters()->at(i)->setModelWithPath(QString(":/files/images/dark_eater.png"));
-        this->modelList->getDarkEaters()->at(i)->setSrcRect(QRect(DarkEater::currentFrame, 0, this->modelList->getDarkEaters()->at(i)->getRect().width(), this->modelList->getDarkEaters()->at(i)->getRect().height()));
-    }
-    else
-        this->modelList->getDarkEaters()->at(i)->setSrcRect(QRect(0, 0, this->modelList->getDarkEaters()->at(i)->getRect().width(), this->modelList->getDarkEaters()->at(i)->getRect().height()));
-}
-
+//show flame
 void GameController::flameAnimation()
 {
     if(tempFlame == 10)
@@ -738,6 +743,35 @@ void GameController::flameAnimation()
     }
 }
 
+//show darkeater
+void GameController::darkeaterAnimation(int i)
+{
+    if(tempDarkEater == 15)
+    {
+        DarkEater::currentFrame += 52;
+        if (DarkEater::currentFrame >= 156)
+            DarkEater::currentFrame = 1;
+        tempDarkEater = 0;
+    }
+    else
+        tempDarkEater++;
+
+    int x = this->modelList->getDarkEaters()->at(i)->getRect().x();
+    if(!this->modelList->getDarkEaters()->at(i)->isDestroyed())
+    {
+        this->moveModel(x, this->modelList->getDarkEaters()->at(i));
+        this->intersectXDarkEaterMario(i);
+        if(this->modelList->getDarkEaters()->at(i)->getMoveX())
+            this->modelList->getDarkEaters()->at(i)->setModelWithPath(QString(":/files/images/dark_eater_right.png"));
+        else
+            this->modelList->getDarkEaters()->at(i)->setModelWithPath(QString(":/files/images/dark_eater.png"));
+        this->modelList->getDarkEaters()->at(i)->setSrcRect(QRect(DarkEater::currentFrame, 0, this->modelList->getDarkEaters()->at(i)->getRect().width(), this->modelList->getDarkEaters()->at(i)->getRect().height()));
+    }
+    else
+        this->modelList->getDarkEaters()->at(i)->setSrcRect(QRect(0, 0, this->modelList->getDarkEaters()->at(i)->getRect().width(), this->modelList->getDarkEaters()->at(i)->getRect().height()));
+}
+
+//move bg when iterBg == 2
 void GameController::backgroundAnimation(int i)
 {
     if(this->iterBackground == 2)
@@ -751,6 +785,7 @@ void GameController::backgroundAnimation(int i)
     }
 }
 
+//when mario get hurted
 void GameController::hurted()
 {
     if(this->modelList->getMario()->getIsHurted())
@@ -792,50 +827,24 @@ void GameController::hurted()
     }
 }
 
-void GameController::movementLabel()
+//show GO
+void GameController::splashScreen()
 {
-    if(this->modelList->getLabel()->getShow())
-        this->modelList->getLabel()->move(this->modelList->getMario()->getRect().x(), this->modelList->getMario()->getRect().y() - 100);
-}
-
-void GameController::fantom()
-{
-    if(this->modelList->getMario()->getDieRect().bottom() > this->modelList->getMario()->getRect().top() - 200)
+    if(this->modelList->getSplashScreen()->getType() == SplashScreenType::GO)
     {
-        int x = this->modelList->getMario()->getDieRect().x();
-        int y = this->modelList->getMario()->getDieRect().y();
-        this->modelList->getMario()->moveDie(x, y);
-    }
-    else
-    {
-        this->modelList->getMario()->setUntouchable(false);
-        this->modelList->getMario()->setIsHurted(false);
-        this->modelList->getBlood()->setStopBlood(false);
-    }
-}
-
-void GameController::movementTree(int i)
-{
-    if(this->modelList->getTrees()->at(i)->getIsMovingL())
-    {
-        if(this->modelList->getTrees()->at(i)->getMoveCount() > 0)
-        {
-            this->modelList->getTrees()->at(i)->setmoveCount(this->modelList->getTrees()->at(i)->getMoveCount() - 2);
-            this->modelList->getTrees()->at(i)->move(this->modelList->getTrees()->at(i)->getRect().x(), this->modelList->getTrees()->at(i)->getRect().y() - 2);
-        }
-
-        else if(this->modelList->getTrees()->at(i)->getMoveCount() > - 120)
-        {
-            this->modelList->getTrees()->at(i)->setmoveCount(this->modelList->getTrees()->at(i)->getMoveCount() - 2);
-            this->modelList->getTrees()->at(i)->move(this->modelList->getTrees()->at(i)->getRect().x(), this->modelList->getTrees()->at(i)->getRect().y() + 2);
-        }
-
+        int x= this->modelList->getSplashScreen()->getRect().x();
+        int y= this->modelList->getSplashScreen()->getRect().y();
+        y--;
+        if(this->modelList->getSplashScreen()->getRect().bottom() > 0 && this->modelList->getSplashScreen()->getIsSplashScreen())
+            this->modelList->getSplashScreen()->move(x, y);
         else
-            this->modelList->getTrees()->at(i)->setmoveCount(120);
+            this->modelList->getSplashScreen()->setIsSplashScreen(false);
     }
 }
 
-bool GameController::GameOver(){
+//when life < 0 || time our || mario drop, game over
+bool GameController::GameOver()
+{
     if(this->modelList->getMario()->getLife() < 0 || this->modelList->getMario()->getRect().y() > 500
             || this->modelList->getTime()->getTime() <= 0)
     {
@@ -854,7 +863,9 @@ bool GameController::GameOver(){
         return false;
 }
 
-bool GameController::Completed(){
+//when goldnumber > 200, complete the game
+bool GameController::Completed()
+{
     if(this->modelList->getMario()->getGoldNumber() >= 200)
     {
         if(this->modelList->getSplashScreen()->getType() != SplashScreenType::COMPLETED)
@@ -869,6 +880,7 @@ bool GameController::Completed(){
         return false;
 }
 
+//show princess when goldnumber > 100
 void GameController::Princess()
 {
     if(this->modelList->getMario()->getGoldNumber() > 100 && !this->modelList->getIsPrincessBool())
@@ -878,6 +890,7 @@ void GameController::Princess()
     }
 }
 
+//show label
 void GameController::Label()
 {
     if(this->modelList->getMario()->getGoldNumber() == 1)
@@ -913,3 +926,18 @@ void GameController::Label()
     }
 }
 
+//void GameController::fantom()
+//{
+//    if(this->modelList->getMario()->getDieRect().bottom() > this->modelList->getMario()->getRect().top() - 200)
+//    {
+//        int x = this->modelList->getMario()->getDieRect().x();
+//        int y = this->modelList->getMario()->getDieRect().y();
+//        this->modelList->getMario()->moveDie(x, y);
+//    }
+//    else
+//    {
+//        this->modelList->getMario()->setUntouchable(false);
+//        this->modelList->getMario()->setIsHurted(false);
+//        this->modelList->getBlood()->setStopBlood(false);
+//    }
+//}

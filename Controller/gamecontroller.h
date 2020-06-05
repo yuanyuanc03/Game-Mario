@@ -25,13 +25,13 @@ public:
     inline void setIsMovingL(bool is) { this->getModelList()->getMario()->setIsMovingL(is); }
     inline void setIsJumping(bool is) { this->getModelList()->getMario()->setIsJumping(is); }
     inline void setIsAttacking(bool is) { this->getModelList()->getMario()->setIsAttacking(is); }
-    inline void setIsGameOver(bool is) { this->isGameOver = is; }
-    inline bool getIsGameOVer() { return this->isGameOver; }
+    //inline void setIsGameOver(bool is) { this->isGameOver = is; }
+    //inline bool getIsGameOVer() { return this->isGameOver; }
     bool getMoveMap() { return this->moveMap; }
-    inline std::tuple<> getAllObjects();
+    //inline std::tuple<> getAllObjects();
     inline ModelList *getModelList(){ return this->modelList; }
-    inline qreal getOpacity() { return this->opacity; }
-    inline void setOpacity(qreal opacity) { this->opacity = opacity; }
+    //inline qreal getOpacity() { return this->opacity; }
+    //inline void setOpacity(qreal opacity) { this->opacity = opacity; }
     inline int getXRelatif() { return this->xRelatif; }
     inline void setXRelatif(int x) { this->xRelatif = x; }
     inline void setTimerId(int id) { this->timerId = id; }
@@ -89,20 +89,20 @@ private:
     int yRelatif;
     int startJumpY;
     int iterBackground;
-    int tempMove = 0;
     int marioSize;
+    int tempMove = 0;
     int tempDarkEater = 0;
-    int princessTempo = 0;
     int tempGold = 0;
     int tempFlame = 0;
     int tempShock = 0;
-    qreal opacity = 1;
-    bool isLittle;
-    bool isGameOver = false;
-    bool moveMap = false;
+    int princessTempo = 0;
     int showBloodCount = 0;
     int labelTime = 0;
-    int timerId=0;
+    int timerId = 0;
+    //qreal opacity = 1;
+    //bool isLittle;
+    //bool isGameOver = false;
+    bool moveMap = false;
 
     //private methods
     void timerEvent(QTimerEvent *event);
